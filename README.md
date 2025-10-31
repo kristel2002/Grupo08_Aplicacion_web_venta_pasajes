@@ -1,47 +1,7 @@
 ### `npm start`
 
-GRUPO08_APLICACION_WEB_VENTA_PASAJES/
-│
-├── api/
-│   ├── node_modules/
-│   ├── db.js
-│   ├── dockerfile
-│   ├── package.json
-│   ├── server.js
-│   └── database/
-│       ├── init.sql
-│       ├── seed.sql
-│       ├── setup.js
-│       └── test.js
-│
-├── node_modules/
-│
-├── public/
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── logo192.png
-│   ├── logo512.png
-│   ├── manifest.json
-│   └── robots.txt
-│
-├── src/
-│   ├── components/
-│   │   ├── buscarViaje.jsx
-│   │   ├── crearViajes.jsx
-│   │   ├── IniciarSesion.jsx
-│   │   ├── recuperacionContraseña.jsx
-│   │   ├── RegistroUsuario.jsx
-│   │   └── components.css
-│   │
-│   └── context/
-│       └── AuthContext.js
-│
-├── .gitignore
-├── docker-compose.yml
-├── Dockerfile
-├── package-lock.json
-├── package.json
-└── README.md
+<img width="231" height="633" alt="image" src="https://github.com/user-attachments/assets/67bf32af-99ab-480c-aef0-96c3bcb6fa4d" />
+
 
 
 If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
