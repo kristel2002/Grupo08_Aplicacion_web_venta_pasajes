@@ -1,6 +1,7 @@
 ### `npm start`
 
-<img width="231" height="633" alt="image" src="https://github.com/user-attachments/assets/67bf32af-99ab-480c-aef0-96c3bcb6fa4d" />
+<img width="461" height="593" alt="Captura de pantalla 2025-10-31 092958" src="https://github.com/user-attachments/assets/97a1b789-a399-43c3-9a84-4c056c657e1a" />
+
 
 
 
