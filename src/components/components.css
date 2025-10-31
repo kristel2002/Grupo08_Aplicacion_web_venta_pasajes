@@ -1,0 +1,1269 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== COMPONENTES DE FORMULARIO ===== */
+.componente {
+  padding: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.componente h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.formulario {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.campo {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.campo input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+  background-color: #fff;
+}
+
+.campo input:focus {
+  outline: none;
+  border-color: #5cdb95;
+  box-shadow: 0 0 0 2px rgba(92, 219, 149, 0.25);
+}
+
+.campo input::placeholder {
+  color: #999;
+}
+
+.campo-doble {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* ===== ENCABEZADO ===== */
+.header-usuario {
+  background: white;
+  color: #333;
+  padding: 1.5rem 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.usuario-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.usuario-info h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.usuario-datos {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.bienvenida {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #666;
+}
+
+/* ===== HERO SECTION CON GRADIENTE VERDE-AZUL SUAVE ===== */
+.hero-busqueda {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: linear-gradient(135deg, #5cdb95 0%, #379683 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 10px;
+  margin: 2rem auto;
+  max-width: 1000px;
+}
+
+.hero-content h1 {
+  font-size: 2.5rem;
+  color: white;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ===== TABLAS CENTRADAS ===== */
+.tabla-filtros-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.tabla-filtros {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-filtros thead {
+  background-color: #f8f9fa;
+}
+
+.tabla-filtros th {
+  padding: 15px 12px;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+  font-size: 0.95rem;
+}
+
+.tabla-filtros td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tabla-filtros input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+  background: white;
+  text-align: center;
+}
+
+.tabla-filtros input:focus {
+  outline: none;
+  border-color: #5cdb95;
+  box-shadow: 0 0 0 3px rgba(92, 219, 149, 0.1);
+}
+
+.tabla-filtros input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+/* ===== ESTILOS PARA EL CALENDARIO PEQUEÑO CON ICONO ===== */
+.input-fecha-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-fecha-container input {
+  flex: 1;
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background: white;
+  text-align: center;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.input-fecha-container input:focus {
+  outline: none;
+  border-color: #5cdb95;
+  box-shadow: 0 0 0 3px rgba(92, 219, 149, 0.1);
+}
+
+.icono-calendario {
+  cursor: pointer;
+  color: #379683;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.icono-calendario:hover {
+  color: #2d7a6b;
+  transform: scale(1.1);
+}
+
+.calendario-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.calendario-container {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  max-width: 90vw;
+}
+
+.calendario-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 8px;
+}
+
+.mes-actual {
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  flex: 1;
+}
+
+.btn-navegacion {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 5px;
+  color: #666;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.btn-navegacion:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.calendario-dias-semana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 11px;
+  color: #666;
+}
+
+.dia-semana {
+  padding: 6px 2px;
+  text-align: center;
+}
+
+.calendario-dias {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.dia-calendario {
+  padding: 8px 2px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dia-actual {
+  background: white;
+  color: #333;
+  font-weight: 500;
+}
+
+.dia-actual:hover {
+  background: #e3f2fd;
+  border-color: #5cdb95;
+  transform: scale(1.05);
+}
+
+.dia-otro-mes {
+  background: #f8f9fa;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.dia-calendario.hoy {
+  background: #5cdb95;
+  color: white;
+  font-weight: bold;
+  border-color: #379683;
+}
+
+.dia-calendario.seleccionado {
+  background: #379683;
+  color: white;
+  font-weight: bold;
+}
+
+.calendario-acciones {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.btn-hoy, .btn-cerrar {
+  background: #5cdb95;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-hoy:hover, .btn-cerrar:hover {
+  background: #379683;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(55, 150, 131, 0.3);
+}
+
+.btn-cerrar {
+  background: #6c757d;
+}
+
+.btn-cerrar:hover {
+  background: #5a6268;
+}
+
+/* Asegurar que la tabla se vea bien con los calendarios */
+.tabla-filtros {
+  position: relative;
+}
+
+.tabla-filtros td {
+  position: relative;
+  vertical-align: top;
+}
+
+/* ===== SECCIÓN DE FILTROS ===== */
+.filtros-section {
+  background: white;
+  border-radius: 10px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 3rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.filtros-section h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ===== SECCIÓN DURACIÓN CON LISTA DESPLEGABLE ===== */
+.seccion-duracion {
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  max-width: 600px;
+  text-align: center;
+}
+
+.seccion-duracion h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+  font-weight: 600;
+}
+
+.select-duracion-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.select-duracion {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23333333' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+.select-duracion:focus {
+  outline: none;
+  border-color: #5cdb95;
+  box-shadow: 0 0 0 3px rgba(92, 219, 149, 0.1);
+}
+
+.select-duracion:hover {
+  border-color: #5cdb95;
+}
+
+.select-duracion option {
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.select-duracion option:checked {
+  background-color: #5cdb95;
+  color: white;
+}
+
+.select-duracion option:hover {
+  background-color: #e8f5e8;
+}
+
+/* ===== BOTONES DE ACCIÓN MEJORADOS ===== */
+.contenedor-botones {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.btn-aplicar {
+  background: linear-gradient(135deg, #5cdb95, #379683);
+  color: white;
+  font-weight: 600;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  min-width: 200px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(92, 219, 149, 0.3);
+}
+
+.btn-aplicar:hover {
+  background: linear-gradient(135deg, #4bcb85, #2d7a6b);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(92, 219, 149, 0.4);
+}
+
+.btn-aplicar:active {
+  transform: translateY(0);
+}
+
+.btn-limpiar {
+  background: #6c757d;
+  color: white;
+  font-weight: 600;
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  min-width: 200px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-limpiar:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-limpiar:active {
+  transform: translateY(0);
+}
+
+/* ===== TARJETA DE FILTROS APLICADOS ===== */
+.filtros-aplicados-section {
+  max-width: 1000px;
+  margin: 0 auto 3rem auto;
+}
+
+.filtros-aplicados-section h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tarjeta-filtros {
+  background: white;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}
+
+.tarjeta-header {
+  background: linear-gradient(135deg, #5cdb95 0%, #379683 100%);
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tarjeta-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.btn-cerrar-tarjeta {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.btn-cerrar-tarjeta:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.filtros-lista {
+  padding: 1.5rem;
+}
+
+.filtro-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.filtro-item:last-child {
+  border-bottom: none;
+}
+
+.filtro-label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.filtro-valor {
+  color: #379683;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+/* ===== LÍNEA DIVISORIA ===== */
+.linea-divisoria {
+  border: none;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #e0e0e0, transparent);
+  margin: 2rem auto;
+  max-width: 800px;
+}
+
+/* ===== BOTONES ===== */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-width: 120px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #379683;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2d7a6b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(55, 150, 131, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(55, 150, 131, 0.3);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+  padding: 10px 20px;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* ===== RESULTADOS ===== */
+.resultados-section {
+  max-width: 1000px;
+  margin: 0 auto 3rem auto;
+}
+
+.resultados-section h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.viajes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.viaje-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  transition: transform 0.3s ease;
+}
+
+.viaje-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.viaje-card h4 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.viaje-card p {
+  color: #666;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.viaje-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.precio {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #379683;
+}
+
+.duracion {
+  background: #5cdb95;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* ===== TARJETAS COMPACTAS DE VIAJES ===== */
+.viajes-grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.viaje-card-compact {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border: 1px solid #e1e5e9;
+  transition: all 0.3s ease;
+  height: fit-content;
+}
+
+.viaje-card-compact:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.viaje-imagen-container {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+.viaje-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.viaje-card-compact:hover .viaje-imagen {
+  transform: scale(1.05);
+}
+
+.viaje-card-content {
+  padding: 1.25rem;
+}
+
+.viaje-card-header-compact h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #2d3748;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.destino-compact {
+  color: #718096;
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.descripcion-compact {
+  font-size: 0.9rem;
+  color: #4a5568;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fechas-disponibles-compact h5,
+.incluye-compact h5 {
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.fechas-lista-compact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.fecha-item-compact {
+  background: #f7fafc;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  font-weight: 500;
+}
+
+.incluye-compact ul {
+  margin: 0 0 1rem 0;
+  padding-left: 1rem;
+}
+
+.incluye-compact li {
+  font-size: 0.85rem;
+  color: #4a5568;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.viaje-info-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.precio-compact {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.duracion-compact {
+  background: #4299e1;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.btn-reservar-compact {
+  width: 100%;
+  background: #48bb78;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-reservar-compact:hover {
+  background: #38a169;
+}
+
+/* Mejoras para el calendario */
+.controles-superiores {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-navegacion {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-navegacion:hover {
+  background: #f1f5f9;
+}
+
+.dia-otro-mes {
+  color: #cbd5e0 !important;
+  cursor: pointer !important;
+}
+
+.dia-otro-mes:hover {
+  background: #f7fafc !important;
+  color: #718096 !important;
+}
+
+/* ===== MENSAJES Y ESTADOS ===== */
+.mensaje {
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.mensaje-exito {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.mensaje-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.texto-ayuda {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* Estados de validación */
+.campo input:invalid {
+  border-color: #dc3545;
+}
+
+.campo input:valid {
+  border-color: #28a745;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .componente {
+    padding: 0.5rem;
+  }
+  
+  .header-usuario {
+    padding: 1rem 0;
+  }
+  
+  .usuario-info {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  
+  .usuario-info h1 {
+    font-size: 2rem;
+  }
+  
+  .usuario-datos {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .hero-busqueda {
+    padding: 2rem 1rem;
+    margin: 1rem auto;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+  
+  .filtros-section {
+    padding: 1.5rem;
+    margin: 0 1rem 2rem 1rem;
+  }
+  
+  .tabla-filtros {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .tabla-filtros th,
+  .tabla-filtros td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+  
+  .viajes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .viajes-grid-compact {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .viaje-card-compact {
+    margin: 0 0.5rem;
+  }
+  
+  .viaje-imagen-container {
+    height: 160px;
+  }
+  
+  .viaje-card-content {
+    padding: 1rem;
+  }
+  
+  .contenedor-botones {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .btn-aplicar,
+  .btn-limpiar {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .filtro-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .filtro-valor {
+    text-align: left;
+  }
+  
+  .tarjeta-header {
+    padding: 1rem;
+  }
+  
+  .tarjeta-header h4 {
+    font-size: 1.1rem;
+  }
+
+  /* Responsive para calendarios */
+  .calendario-container {
+    width: 280px;
+    padding: 12px;
+  }
+  
+  .calendario-header {
+    margin-bottom: 10px;
+  }
+  
+  .mes-actual {
+    font-size: 13px;
+  }
+  
+  .btn-navegacion {
+    padding: 5px 8px;
+    font-size: 14px;
+  }
+  
+  .calendario-dias-semana {
+    font-size: 10px;
+  }
+  
+  .dia-calendario {
+    padding: 6px 1px;
+    font-size: 11px;
+    min-height: 28px;
+  }
+  
+  .btn-hoy, .btn-cerrar {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+  
+  .input-fecha-container {
+    gap: 6px;
+  }
+  
+  .icono-calendario {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Responsive para la lista desplegable de duración */
+  .seccion-duracion {
+    padding: 1.2rem;
+  }
+  
+  .select-duracion {
+    max-width: 250px;
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .usuario-info h1 {
+    font-size: 1.8rem;
+  }
+  
+  .hero-content h1 {
+    font-size: 1.6rem;
+  }
+  
+  .filtros-section {
+    padding: 1rem;
+  }
+  
+  .btn-aplicar {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+  
+  .tabla-filtros th,
+  .tabla-filtros td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+  
+  .componente h2 {
+    font-size: 1.5rem;
+  }
+  
+  .campo input {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  /* Responsive para calendarios en móviles */
+  .calendario-container {
+    width: 260px;
+    padding: 10px;
+  }
+  
+  .mes-actual {
+    font-size: 12px;
+  }
+  
+  .calendario-dias-semana {
+    font-size: 9px;
+  }
+  
+  .dia-calendario {
+    padding: 5px 1px;
+    font-size: 10px;
+    min-height: 26px;
+  }
+  
+  .icono-calendario {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Responsive para la lista desplegable de duración en móviles */
+  .seccion-duracion {
+    padding: 1rem;
+  }
+  
+  .seccion-duracion h4 {
+    font-size: 1.1rem;
+  }
+  
+  .select-duracion {
+    max-width: 100%;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .filtros-lista {
+    padding: 1rem;
+  }
+  
+  .filtro-item {
+    padding: 0.5rem 0;
+  }
+  
+  /* Responsive para tarjetas compactas en móviles */
+  .viajes-grid-compact {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .viaje-card-compact {
+    margin: 0;
+  }
+  
+  .viaje-imagen-container {
+    height: 140px;
+  }
+  
+  .viaje-card-content {
+    padding: 0.875rem;
+  }
+  
+  .viaje-card-header-compact h4 {
+    font-size: 1rem;
+  }
+  
+  .descripcion-compact {
+    font-size: 0.85rem;
+  }
+  
+  .precio-compact {
+    font-size: 1.1rem;
+  }
+  
+  .btn-reservar-compact {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+  }
+}

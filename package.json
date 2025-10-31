@@ -1,0 +1,33 @@
+{
+  "name": "tourest-travel",
+  "version": "1.0.0",
+  "description": "Travel agency website - Tourest",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "db:setup": "node database/setup.js",
+    "db:test": "node -e \"const { Client } = require('pg'); const client = new Client({ host: '127.0.0.1', port: 5432, database: 'tourest', user: 'postgres', password: 'password123' }); client.connect().then(() => { console.log('✅ Conectado a PostgreSQL'); return client.query('SELECT version()'); }).then(res => { console.log('📊 PostgreSQL:', res.rows[0].version); client.end(); }).catch(err => { console.error('❌ Error:', err.message); });\""
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^3.3.2",
+    "pg": "^8.11.3"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
