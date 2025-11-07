@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Grupo08_Aplicacion_web_venta_pasajes/static/css/main.25a72839.css",
+    "main.js": "/Grupo08_Aplicacion_web_venta_pasajes/static/js/main.bc8315b0.js",
+    "static/js/488.125259cc.chunk.js": "/Grupo08_Aplicacion_web_venta_pasajes/static/js/488.125259cc.chunk.js",
+    "index.html": "/Grupo08_Aplicacion_web_venta_pasajes/index.html",
+    "main.25a72839.css.map": "/Grupo08_Aplicacion_web_venta_pasajes/static/css/main.25a72839.css.map",
+    "main.bc8315b0.js.map": "/Grupo08_Aplicacion_web_venta_pasajes/static/js/main.bc8315b0.js.map",
+    "488.125259cc.chunk.js.map": "/Grupo08_Aplicacion_web_venta_pasajes/static/js/488.125259cc.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.25a72839.css",
+    "static/js/main.bc8315b0.js"
+  ]
+}
