@@ -1,0 +1,39 @@
+# Etapa 1: Construir el frontend
+FROM node:18-alpine AS build-frontend
+WORKDIR /app
+
+# Copiar archivos de configuración
+COPY package*.json ./
+COPY . .
+
+# Instalar todas las dependencias y construir
+RUN npm install
+RUN npm run build
+
+# Etapa 2: Backend + servir frontend
+FROM node:18-alpine
+WORKDIR /app
+
+# Copiar package.json
+COPY package*.json ./
+RUN npm install --production
+
+# Copiar backend
+COPY api/ ./api/
+COPY database/ ./database/
+COPY server.js ./
+COPY db.js ./
+
+# Copiar build del frontend
+COPY --from=build-frontend /app/build ./public
+
+# Salud para Render
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:10000/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+
+ENV NODE_ENV=production
+ENV PORT=10000
+
+EXPOSE 10000
+
+CMD [ "node", "server.js" ]

@@ -1,70 +1,173 @@
-# Getting Started with Create React App
+### Descripción general
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto consiste en una aplicación web para la venta de pasajes, desarrollada con tecnologías JavaScript, React y Node.js, e integrada con Docker para facilitar su despliegue.
 
-## Available Scripts
+La aplicación está estructurada en dos partes principales:
 
-In the project directory, you can run:
+- Frontend (interfaz de usuario): desarrollado con React.
 
-### `npm start`
+- Backend (API y base de datos): desarrollado con Node.js y Express, conectado a una base de datos extension Database utilizando PosgreSQL.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Además, incluye archivos de configuración que permiten ejecutar todo el sistema con un solo comando mediante Docker Compose.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- API ficticio: Apidog 
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<img width="461" height="593" alt="Captura de pantalla 2025-10-31 092958" src="https://github.com/user-attachments/assets/97a1b789-a399-43c3-9a84-4c056c657e1a" />
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Herramientas que se utilizo en el backend 
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Name: Tourest
 
-### `npm run eject`
+Host: localhost
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Username: postgres
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Database: tourest
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Port: 5433
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Password: (secreto)
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Herramienta que gestiona y guarda
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Git: Sistema de control de versiones
+- Inicializar nuevo repositorio : 
+> git init
+- Clonar un repositorio remoto :
+> git clone <dir_repositorio>
+- Comprueba el estado actual de los archivos:
+> git status
+- Añadir cambios a INDEX
+> git add <nombre_archivo>
+- Agregar todos los cambios a INDEX
+> git add . 
+- hacer el commit :
+> git commit -m "Avance del proyecto"
+- Conectar el repositorio local con remoto
+> git remote add origin master
+- Ver el historial de commits
+> git log
+- Ver diferencias entre versiones
+>  git diff
+- Actualizar el repositorio local
+> git pull
+- quieres subir los cambios a GitHub:
+> git push origin main (git push origin master)
+- Verifica el repositorio remoto actual
+> git remote -v 
+- Quitar o eliminar un archivo
+> git rm <nombre_archivo>
+- Ver las ramas existentes
+> git branch
+- Crear nueva rama
+> git branch <nombre-rama>
+- Cambia a otra rama
+> git checkout <nombre-rama>
+- Subir rama al repositorio remoto
+> git push origin <branch>
+- Fusionar cambios de otra rama
+> git merge <branch>
+- Ver cambios entre dos ramas
+> git diff <source_branch> <target-branch>
++ master(Còdigo listo para producciòn)
++ develop( Desarrollo en curso)
++ feature(Nuevas caracteristicas)
++ release (Preparacion de versiones)
++ hotfix(Correcciones urgentes)
+Sirve para instalar la librería gh-pages del proyecto Node.js o React, la cual permite publicar tu aplicación web directamente en GitHub Pages
+npm install gh-pages
 
-### Code Splitting
+En la terminal, asegúrate de estar en la carpeta del proyecto:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+cd C:\Users\Usuario\Desktop\Grupo08_Aplicacion_web_venta_pasajes
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Ejecuta:
 
-### Making a Progressive Web App
+npm run deploy
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+https://kristel2002.github.io/Grupo08_Aplicacion_web_venta_pasajes/
 
-### Advanced Configuration
+Para enviar y recibir, actualizar : formato json que es de postman pero en este caso se va utilizar una extension
+GET, POST, PUT y DELETE
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+GET: Obtener data
 
-### Deployment
+POST: Enviar un nuevo recurso
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+PUT: Actualizar toda la información de ese recurso en su totalidad
 
-### `npm run build` fails to minify
+DELETE: Eliminar un recurso existente
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+PATCH: Actualización parcial de recurso
+
+La respuesta que va emitir es lo siguiente:
+
+ 1xx: Respuestas informativas
+
+ 2xx: Peticiones correctas
+
+ 3xx: Redirecciones de ubicación
+
+ 4xx: Errores del cliente
+
+ 5xx: Errores del servicio
+
+
+### Crear Web Service en Render
+
+Ve a Render haces click en nuevo luego Web Service.
+Conecta tu repositorio de GitHub y selecciona la rama main.
+
+Configura:
+Environment: Node
+
+Build Command: npm install (ya hiciste npm run build localmente)
+
+Start Command: node server.js
+
+Environment Variables: agrega las de tu BD:
+
+DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+DATABASE_URL (si usarás PostgreSQL de Render)
+
+
+Pulsa Create Web Service.
+
+Render hará:
+
+Clonación del repo
+
+Instalación de dependencias
+
+Inicio del servidor
+
+Instala react-scripts si falta
+
+- Si quieres evitar problemas de rutas y de react-scripts en Windows, puedes hacer:
+
+> npx react-scripts build
+
+- Esto asegura que el comando funcione
+
+> npm run build 
+
+- Si react-scripts no está instalado, hazlo explícitamente:
+
+> npm install react-scripts --save
+
+Para corregirlas automáticamente vulnerabilidades:
+
+> npm audit fix
+
+Para forzar la actualización de dependencias aunque pueda romper algo:
+
+> npm audit fix --force
+
+Si aún falla, reinstala react-scripts directamente
+> npm install react-scripts@latest --save
+

@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: grupo08-app
+    env: docker
+    docker:
+      dockerfile: Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
+    autoDeploy: true
+    plans:
+      - name: free
+        cpu: 0.25
+        memory: 512MB
+        price: 0
+      - name: starter
+        cpu: 0.5
+        memory: 1GB
+        price: 7
