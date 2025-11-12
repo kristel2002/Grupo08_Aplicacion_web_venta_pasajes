@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import './components.css';
 
-const BuscarViaje = () => {
+const BuscarViaje = (props) => {
   const { user, logout } = useAuth();
+  
+  // Estados principales
   const [filtros, setFiltros] = useState({
     destino: '',
     fechaInicio: '',
@@ -12,12 +14,15 @@ const BuscarViaje = () => {
     precioMax: '',
     duracion: ''
   });
-
-  // Estados para controlar qué calendario mostrar
+  
   const [calendarioActivo, setCalendarioActivo] = useState(null);
   const [filtrosAplicados, setFiltrosAplicados] = useState(null);
   const [mostrarResultados, setMostrarResultados] = useState(false);
-  
+  const [mostrarModalConfirmacion, setMostrarModalConfirmacion] = useState(false);
+  const [mostrarModalExito, setMostrarModalExito] = useState(false);
+  const [viajeSeleccionado, setViajeSeleccionado] = useState(null);
+
+  // Datos de ejemplo
   const [resultadosViajes] = useState([
     {
       id: 1,
@@ -65,6 +70,16 @@ const BuscarViaje = () => {
     }
   ]);
 
+  // Opciones para la lista desplegable de duración
+  const opcionesDuracion = [
+    { value: '', label: 'Cualquier duración' },
+    { value: '7', label: '7 días' },
+    { value: '10', label: '10 días' },
+    { value: '14', label: '14 días' },
+    { value: '15+', label: '15+ días' }
+  ];
+
+  // Handlers de formularios
   const handleFiltroChange = (e) => {
     const { name, value } = e.target;
     setFiltros(prev => ({
@@ -73,10 +88,8 @@ const BuscarViaje = () => {
     }));
   };
 
-  // Función para manejar precios decimales
   const handlePrecioChange = (e) => {
     const { name, value } = e.target;
-    // Permitir solo números y un punto decimal
     const decimalRegex = /^\d*\.?\d*$/;
     if (value === '' || decimalRegex.test(value)) {
       setFiltros(prev => ({
@@ -90,17 +103,10 @@ const BuscarViaje = () => {
     e.preventDefault();
     console.log('Aplicando filtros:', filtros);
     
-    // Guardar los filtros aplicados para mostrar en la tarjeta
     setFiltrosAplicados({ ...filtros });
-    
-    // Mostrar los resultados de viajes
     setMostrarResultados(true);
-    
-    // Aquí iría la lógica para filtrar los viajes según los filtros
-    // Por ahora mostramos todos los resultados
   };
 
-  // Función para limpiar filtros
   const limpiarFiltros = () => {
     setFiltros({
       destino: '',
@@ -114,7 +120,7 @@ const BuscarViaje = () => {
     setMostrarResultados(false);
   };
 
-  // Función para formatear fecha a dd/mm/aaaa
+  // Funciones de fecha
   const formatearFecha = (fecha) => {
     const dia = fecha.getDate().toString().padStart(2, '0');
     const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
@@ -122,7 +128,6 @@ const BuscarViaje = () => {
     return `${dia}/${mes}/${año}`;
   };
 
-  // Función para seleccionar fecha del calendario
   const seleccionarFecha = (fecha) => {
     const fechaFormateada = formatearFecha(fecha);
     
@@ -135,22 +140,49 @@ const BuscarViaje = () => {
     setCalendarioActivo(null);
   };
 
-  // Función para abrir el calendario
   const abrirCalendario = (tipo) => {
     setCalendarioActivo(tipo);
   };
 
-  // Función para cerrar el calendario
   const cerrarCalendario = () => {
     setCalendarioActivo(null);
   };
 
-  // Función para seleccionar "Hoy"
   const seleccionarHoy = () => {
     seleccionarFecha(new Date());
   };
 
-  // Componente de Calendario CORREGIDO - Con navegación funcional
+  // Funciones auxiliares
+  const obtenerLabelDuracion = (valor) => {
+    const opcion = opcionesDuracion.find(op => op.value === valor);
+    return opcion ? opcion.label : 'No especificado';
+  };
+
+  const handleReservar = (viaje) => {
+    setViajeSeleccionado(viaje);
+    setMostrarModalConfirmacion(true);
+  };
+
+  const handleConfirmarReserva = () => {
+    setMostrarModalConfirmacion(false);
+    setMostrarModalExito(true);
+  };
+
+  const handleCancelarReserva = () => {
+    setMostrarModalConfirmacion(false);
+    setViajeSeleccionado(null);
+  };
+
+  const handleAceptarExito = () => {
+    setMostrarModalExito(false);
+    // Usar la prop para navegar a GestionarPago
+    if (props.onNavegarAPago) {
+      props.onNavegarAPago(viajeSeleccionado);
+    }
+    setViajeSeleccionado(null);
+  };
+
+  // Componente Calendario
   const Calendario = () => {
     const [fechaVisualizacion, setFechaVisualizacion] = useState(new Date());
     
@@ -164,17 +196,14 @@ const BuscarViaje = () => {
     
     const diasSemana = ['DO', 'LU', 'MA', 'MI', 'JU', 'VI', 'SA'];
 
-    // Función para generar los días del mes CORREGIDA
     const generarDiasDelMes = () => {
       const primerDia = new Date(añoActual, mesActual, 1);
       const ultimoDia = new Date(añoActual, mesActual + 1, 0);
       const dias = [];
 
-      // Días del mes anterior (para completar la primera semana)
-      const diaInicioSemana = primerDia.getDay(); // 0 = Domingo
+      const diaInicioSemana = primerDia.getDay();
       const ultimoDiaMesAnterior = new Date(añoActual, mesActual, 0).getDate();
       
-      // Agregar días del mes anterior
       for (let i = diaInicioSemana - 1; i >= 0; i--) {
         const diaNumero = ultimoDiaMesAnterior - i;
         dias.push({
@@ -184,7 +213,6 @@ const BuscarViaje = () => {
         });
       }
 
-      // Días del mes actual
       for (let i = 1; i <= ultimoDia.getDate(); i++) {
         dias.push({
           numero: i,
@@ -193,8 +221,7 @@ const BuscarViaje = () => {
         });
       }
 
-      // Días del siguiente mes (para completar las 6 semanas)
-      const diasFaltantes = 42 - dias.length; // 6 semanas * 7 días
+      const diasFaltantes = 42 - dias.length;
       for (let i = 1; i <= diasFaltantes; i++) {
         dias.push({
           numero: i,
@@ -206,7 +233,6 @@ const BuscarViaje = () => {
       return dias;
     };
 
-    // FUNCIÓN CORREGIDA - Cambiar mes
     const cambiarMes = (direccion) => {
       setFechaVisualizacion(prev => {
         const nuevaFecha = new Date(prev);
@@ -215,7 +241,6 @@ const BuscarViaje = () => {
       });
     };
 
-    // FUNCIÓN CORREGIDA - Cambiar año
     const cambiarAño = (direccion) => {
       setFechaVisualizacion(prev => {
         const nuevaFecha = new Date(prev);
@@ -224,7 +249,6 @@ const BuscarViaje = () => {
       });
     };
 
-    // CORREGIDO: Permite seleccionar cualquier fecha (mes actual, anterior o siguiente)
     const handleSeleccionarDia = (diaInfo) => {
       seleccionarFecha(diaInfo.fecha);
     };
@@ -241,7 +265,6 @@ const BuscarViaje = () => {
     return (
       <div className="calendario-overlay" onClick={cerrarCalendario}>
         <div className="calendario-container" onClick={(e) => e.stopPropagation()}>
-          {/* Header del calendario CORREGIDO con navegación funcional */}
           <div className="calendario-header">
             <div className="controles-superiores">
               <button 
@@ -286,7 +309,6 @@ const BuscarViaje = () => {
             </div>
           </div>
 
-          {/* Días de la semana */}
           <div className="calendario-dias-semana">
             {diasSemana.map(dia => (
               <div key={dia} className="dia-semana">
@@ -295,7 +317,6 @@ const BuscarViaje = () => {
             ))}
           </div>
 
-          {/* Días del mes - CORREGIDO: Permite seleccionar cualquier fecha */}
           <div className="calendario-dias">
             {dias.map((diaInfo, index) => (
               <div
@@ -310,7 +331,6 @@ const BuscarViaje = () => {
             ))}
           </div>
 
-          {/* Acciones del calendario */}
           <div className="calendario-acciones">
             <button className="btn-hoy" onClick={seleccionarHoy} type="button">
               Hoy
@@ -324,7 +344,7 @@ const BuscarViaje = () => {
     );
   };
 
-  // Icono de calendario SVG
+  // Componente IconoCalendario
   const IconoCalendario = ({ onClick }) => (
     <svg 
       width="20" 
@@ -344,20 +364,85 @@ const BuscarViaje = () => {
     </svg>
   );
 
-  // Opciones para la lista desplegable de duración
-  const opcionesDuracion = [
-    { value: '', label: 'Cualquier duración' },
-    { value: '7', label: '7 días' },
-    { value: '10', label: '10 días' },
-    { value: '14', label: '14 días' },
-    { value: '15+', label: '15+ días' }
-  ];
+  // Componente Modal de Confirmación
+  const ModalConfirmacion = () => (
+    <div className="modal-overlay">
+      <div className="modal-container">
+        <div className="modal-header">
+          <h3>¿Estás seguro de reservar?</h3>
+          <button 
+            className="btn-cerrar-modal"
+            onClick={handleCancelarReserva}
+          >
+            ×
+          </button>
+        </div>
+        
+        <div className="modal-body">
+          <div className="resumen-viaje">
+            <h4>{viajeSeleccionado?.titulo}</h4>
+            <p><strong>Destino:</strong> {viajeSeleccionado?.destino}</p>
+            <p><strong>Precio:</strong> ${viajeSeleccionado?.precio?.toLocaleString()}</p>
+            <p><strong>Duración:</strong> {viajeSeleccionado?.duracion}</p>
+          </div>
+          
+          <div className="modal-message">
+            <p>Esta acción confirmará tu reserva. ¿Deseas continuar?</p>
+          </div>
+        </div>
+        
+        <div className="modal-actions">
+          <button 
+            className="btn-modal btn-cancelar"
+            onClick={handleCancelarReserva}
+          >
+            Atrás
+          </button>
+          <button 
+            className="btn-modal btn-confirmar"
+            onClick={handleConfirmarReserva}
+          >
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
-  // Función para obtener el label de la duración
-  const obtenerLabelDuracion = (valor) => {
-    const opcion = opcionesDuracion.find(op => op.value === valor);
-    return opcion ? opcion.label : 'No especificado';
-  };
+  // Componente Modal de Éxito
+  const ModalExito = () => (
+    <div className="modal-overlay">
+      <div className="modal-container modal-exito">
+        <div className="modal-header">
+          <h3>¡Reserva Confirmada!</h3>
+        </div>
+        
+        <div className="modal-body">
+          <div className="icono-exito">✓</div>
+          <p>Tu reserva para <strong>{viajeSeleccionado?.titulo}</strong> ha sido confirmada exitosamente.</p>
+          
+          <div className="detalles-reserva">
+            <p><strong>Destino:</strong> {viajeSeleccionado?.destino}</p>
+            <p><strong>Precio:</strong> ${viajeSeleccionado?.precio?.toLocaleString()}</p>
+            <p><strong>Duración:</strong> {viajeSeleccionado?.duracion}</p>
+          </div>
+          
+          <p className="mensaje-confirmacion">
+            Ahora serás redirigido a la página de pago para completar tu reserva.
+          </p>
+        </div>
+        
+        <div className="modal-actions">
+          <button 
+            className="btn-modal btn-aceptar"
+            onClick={handleAceptarExito}
+          >
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="componente">
@@ -370,7 +455,7 @@ const BuscarViaje = () => {
               <span style={{marginRight: '1rem'}}>
                 Bienvenido, {user?.name || 'Juan Pérez'}
               </span>
-              <button onClick={logout} className="btn btn-secondary">
+              <button onClick={props.onLogout || logout} className="btn btn-secondary">
                 Cerrar Sesión
               </button>
             </div>
@@ -394,7 +479,6 @@ const BuscarViaje = () => {
           <h3>Filtrar Viajes</h3>
           
           <form onSubmit={aplicarFiltros}>
-            {/* Tabla de Filtros */}
             <table className="tabla-filtros">
               <thead>
                 <tr>
@@ -407,7 +491,6 @@ const BuscarViaje = () => {
               </thead>
               <tbody>
                 <tr>
-                  {/* Input de Destino */}
                   <td>
                     <input
                       type="text"
@@ -418,7 +501,6 @@ const BuscarViaje = () => {
                     />
                   </td>
                   
-                  {/* Input de Fecha de Inicio con Calendario */}
                   <td>
                     <div className="input-fecha-container">
                       <input
@@ -433,7 +515,6 @@ const BuscarViaje = () => {
                     </div>
                   </td>
                   
-                  {/* Input de Fecha de Fin con Calendario */}
                   <td>
                     <div className="input-fecha-container">
                       <input
@@ -448,7 +529,6 @@ const BuscarViaje = () => {
                     </div>
                   </td>
                   
-                  {/* Input de Precio Mínimo (decimal) */}
                   <td>
                     <input
                       type="text"
@@ -460,7 +540,6 @@ const BuscarViaje = () => {
                     />
                   </td>
                   
-                  {/* Input de Precio Máximo (decimal) */}
                   <td>
                     <input
                       type="text"
@@ -475,10 +554,8 @@ const BuscarViaje = () => {
               </tbody>
             </table>
 
-            {/* Mostrar calendario si está activo */}
             {calendarioActivo && <Calendario />}
 
-            {/* Sección Duración */}
             <div className="seccion-duracion">
               <h4>Duración (días)</h4>
               <div className="select-duracion-container">
@@ -497,10 +574,8 @@ const BuscarViaje = () => {
               </div>
             </div>
 
-            {/* Línea Divisoria */}
             <div className="linea-divisoria"></div>
 
-            {/* Botones de acción */}
             <div className="contenedor-botones">
               <button type="submit" className="btn-aplicar">
                 Aplicar Filtros
@@ -582,7 +657,7 @@ const BuscarViaje = () => {
         </section>
       )}
 
-      {/* Sección de Resultados - SOLO se muestra después de aplicar filtros */}
+      {/* Sección de Resultados */}
       {mostrarResultados && (
         <section className="resultados-section">
           <div className="container">
@@ -629,7 +704,10 @@ const BuscarViaje = () => {
                       <span className="duracion-compact">{viaje.duracion}</span>
                     </div>
                     
-                    <button className="btn-reservar-compact">
+                    <button 
+                      className="btn-reservar-compact"
+                      onClick={() => handleReservar(viaje)}
+                    >
                       Reservar Ahora
                     </button>
                   </div>
@@ -639,6 +717,12 @@ const BuscarViaje = () => {
           </div>
         </section>
       )}
+
+      {/* Modal de Confirmación */}
+      {mostrarModalConfirmacion && <ModalConfirmacion />}
+
+      {/* Modal de Éxito */}
+      {mostrarModalExito && <ModalExito />}
     </div>
   );
 };

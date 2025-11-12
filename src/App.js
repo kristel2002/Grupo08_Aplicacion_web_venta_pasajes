@@ -1,19 +1,32 @@
-import React, { useState } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import IniciarSesion from './components/IniciarSesion';
-import RegistroUsuario from './components/RegistroUsuario';
-import BuscarViaje from './components/buscarViaje';
-import CrearViajes from './components/crearViajes';
+import React, { useState } from 'react'; 
+import { AuthProvider, useAuth } from './context/AuthContext.js';
+import IniciarSesion from './components/IniciarSesion.jsx';
+import RegistroUsuario from './components/RegistroUsuario.jsx';
+import BuscarViaje from './components/BuscarViaje.jsx';
+import CrearViajes from './components/CrearViajes.jsx';
+import GestionarPago from './components/GestionarPago.jsx';
+import VerificationTokenModal from './context/VerificationTokenModal.js';
+import VerifyEmailPage from './context/VerifyEmailPage.js';
 import './App.css';
 
 // Componente que maneja el routing basado en autenticación
 const AppContent = () => {
-  const { user, loading } = useAuth();
+  const { 
+    user, 
+    loading, 
+    showTokenModal, 
+    verificationToken, 
+    pendingEmail, 
+    closeTokenModal, 
+    verifyEmail,
+    logout 
+  } = useAuth();
+  
   const [showRegistro, setShowRegistro] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-
-  // Debug: verificar estado de autenticación
-  console.log('AppContent - Auth state:', { user, loading });
+  const [showVerifyEmailPage, setShowVerifyEmailPage] = useState(false);
+  const [currentView, setCurrentView] = useState('main'); // 'main', 'gestionar-pago'
+  const [viajeParaPago, setViajeParaPago] = useState(null);
 
   const abrirRegistro = () => setShowRegistro(true);
   const cerrarRegistro = () => setShowRegistro(false);
@@ -30,7 +43,48 @@ const AppContent = () => {
     setShowLogin(true);
   };
 
-  // Mostrar loading mientras verifica autenticación
+  const abrirVerifyEmailPage = () => {
+    setShowVerifyEmailPage(true);
+    setShowRegistro(false);
+    setShowLogin(false);
+  };
+
+  const cerrarVerifyEmailPage = () => {
+    setShowVerifyEmailPage(false);
+  };
+
+  const handleVerifyToken = async (token) => {
+    const result = await verifyEmail(token);
+    if (result.success) {
+      alert(result.message);
+      closeTokenModal();
+      setShowVerifyEmailPage(false);
+    } else {
+      alert(result.error);
+    }
+  };
+
+  // Función para navegar a GestionarPago
+  const navegarAGestionarPago = (viaje) => {
+    setViajeParaPago(viaje);
+    setCurrentView('gestionar-pago');
+  };
+
+  // Función para volver a la vista principal
+  const volverAVistaPrincipal = () => {
+    setCurrentView('main');
+    setViajeParaPago(null);
+  };
+
+  // Función para cerrar sesión que maneja todas las vistas
+  const handleLogout = () => {
+    logout();
+    setCurrentView('main');
+    setViajeParaPago(null);
+    setShowRegistro(false);
+    setShowLogin(false);
+  };
+
   if (loading) {
     return (
       <div className="cargando">
@@ -40,26 +94,63 @@ const AppContent = () => {
     );
   }
 
-  // REDIRECCIÓN SEGÚN ROL - ESTO ES CLAVE
-  console.log('Checking user role:', user?.role);
-  
-  // Si el usuario es admin, mostrar interfaz de administración
+  if (showVerifyEmailPage) {
+    return (
+      <div className="verify-email-wrapper">
+        <button className="btn-back" onClick={cerrarVerifyEmailPage}>
+          ← Volver al inicio
+        </button>
+        <VerifyEmailPage />
+      </div>
+    );
+  }
+
+  // Si estamos en la vista de GestionarPago y hay usuario
+  if (currentView === 'gestionar-pago' && user) {
+    return (
+      <GestionarPago 
+        viaje={viajeParaPago} 
+        onVolver={volverAVistaPrincipal} 
+      />
+    );
+  }
+
+  // Redirección según rol
   if (user && user.role === 'admin') {
-    console.log('Redirecting to admin interface');
-    return <CrearViajes />;
+    return (
+      <>
+        <CrearViajes onLogout={handleLogout} />
+        {showTokenModal && (
+          <VerificationTokenModal
+            token={verificationToken}
+            email={pendingEmail}
+            onClose={closeTokenModal}
+            onVerify={handleVerifyToken}
+          />
+        )}
+      </>
+    );
   }
 
-  // Si el usuario es normal, mostrar interfaz de búsqueda
   if (user && user.role === 'user') {
-    console.log('Redirecting to user interface');
-    return <BuscarViaje />;
+    return (
+      <>
+        <BuscarViaje onNavegarAPago={navegarAGestionarPago} onLogout={handleLogout} />
+        {showTokenModal && (
+          <VerificationTokenModal
+            token={verificationToken}
+            email={pendingEmail}
+            onClose={closeTokenModal}
+            onVerify={handleVerifyToken}
+          />
+        )}
+      </>
+    );
   }
 
-  // Si no hay usuario logueado, mostrar landing page
-  console.log('No user logged in, showing landing page');
+  // Si no hay usuario logueado
   return (
     <div className="App">
-      {/* Header */}
       <header className="header">
         <div className="container">
           <nav className="navbar">
@@ -75,18 +166,13 @@ const AppContent = () => {
               <li><a href="#contact">Contact Us</a></li>
             </ul>
             <div className="auth-buttons">
-              <button className="btn-login" onClick={abrirLogin}>
-                Iniciar Sesión
-              </button>
-              <button className="btn-register" onClick={abrirRegistro}>
-                Registrarse
-              </button>
+              <button className="btn-login" onClick={abrirLogin}>Iniciar Sesión</button>
+              <button className="btn-register" onClick={abrirRegistro}>Registrarse</button>
             </div>
           </nav>
         </div>
       </header>
 
-      {/* Hero Section */}
       <section className="hero" id="home">
         <div className="container">
           <div className="hero-content">
@@ -96,53 +182,10 @@ const AppContent = () => {
               I travel not to go anywhere, but to go. I travel for travel's sake the great affair is to move.
             </p>
             <div className="hero-buttons">
-              <button className="btn-primary" onClick={abrirRegistro}>
-                Comenzar a Explorar
-              </button>
-              <button className="btn-secondary" onClick={abrirLogin}>
-                Ya tengo cuenta
-              </button>
+              <button className="btn-primary" onClick={abrirRegistro}>Comenzar a Explorar</button>
+              <button className="btn-secondary" onClick={abrirLogin}>Ya tengo cuenta</button>
+              <button className="btn-tertiary" onClick={abrirVerifyEmailPage}>Verificar Email</button>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section className="about" id="about">
-        <div className="container">
-          <h2 className="section-title">About Tourest</h2>
-          <div className="about-content">
-            <p>Your trusted travel partner for unforgettable experiences around the world. We specialize in creating personalized travel experiences that cater to your unique preferences and dreams.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Tours Section */}
-      <section className="tours" id="tours">
-        <div className="container">
-          <h2 className="section-title">Popular Tours</h2>
-          <div className="tours-content">
-            <p>Discover our most popular travel packages and adventures curated by our expert team.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Destinations Section */}
-      <section className="destinations" id="destinations">
-        <div className="container">
-          <h2 className="section-title">Destinations</h2>
-          <div className="destinations-content">
-            <p>Explore amazing destinations around the globe with our guided tours and travel packages.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="contact" id="contact">
-        <div className="container">
-          <h2 className="section-title">Contact Us</h2>
-          <div className="contact-content">
-            <p>Get in touch with our travel experts to plan your next adventure.</p>
           </div>
         </div>
       </section>
@@ -151,12 +194,11 @@ const AppContent = () => {
       {showRegistro && (
         <div className="modal-overlay" onClick={cerrarRegistro}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={cerrarRegistro}>
-              ×
-            </button>
+            <button className="modal-close" onClick={cerrarRegistro}>×</button>
             <RegistroUsuario 
               onClose={cerrarRegistro} 
-              onSwitchToLogin={irALogin} 
+              onSwitchToLogin={irALogin}
+              onShowVerifyEmail={abrirVerifyEmailPage}
             />
           </div>
         </div>
@@ -166,15 +208,23 @@ const AppContent = () => {
       {showLogin && (
         <div className="modal-overlay" onClick={cerrarLogin}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={cerrarLogin}>
-              ×
-            </button>
+            <button className="modal-close" onClick={cerrarLogin}>×</button>
             <IniciarSesion 
               onClose={cerrarLogin} 
-              onSwitchToRegister={irARegistro} 
+              onSwitchToRegister={irARegistro}
+              onShowVerifyEmail={abrirVerifyEmailPage}
             />
           </div>
         </div>
+      )}
+
+      {showTokenModal && (
+        <VerificationTokenModal
+          token={verificationToken}
+          email={pendingEmail}
+          onClose={closeTokenModal}
+          onVerify={handleVerifyToken}
+        />
       )}
     </div>
   );
