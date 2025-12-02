@@ -1,7 +1,9 @@
 import React from 'react';
 import './components.css';
 
-const PaquetesTuristicos = () => {
+// 1. CAMBIO IMPORTANTE: Ahora recibimos 'onVerDetalles' aquí
+const PaquetesTuristicos = ({ onVerDetalles }) => {
+  
   // Datos de los paquetes turísticos (Tours)
   const paquetes = [
     {
@@ -155,13 +157,38 @@ const PaquetesTuristicos = () => {
                       </div>
                       <div className="price-note">por persona</div>
                     </div>
-                    <button 
-                      className="btn-reservar"
-                      onClick={() => handleReservarClick(paquete)}
-                    >
-                      <span>Reservar Ahora</span>
-                      <i>→</i>
-                    </button>
+
+                    {/* --- AQUÍ ESTÁN TUS BOTONES --- */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+                      
+                      {/* 2. CAMBIO IMPORTANTE: Botón Ver Detalles */}
+                      <button 
+                        className="btn-ver-detalles"
+                        onClick={() => onVerDetalles(paquete)}
+                        style={{
+                          backgroundColor: '#6c757d',
+                          color: 'white',
+                          border: 'none',
+                          padding: '10px 20px',
+                          borderRadius: '25px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          width: '100%'
+                        }}
+                      >
+                        👁️ Ver Detalles
+                      </button>
+
+                      <button 
+                        className="btn-reservar"
+                        onClick={() => handleReservarClick(paquete)}
+                        style={{ width: '100%' }}
+                      >
+                        <span>Reservar Ahora</span>
+                        <i>→</i>
+                      </button>
+
+                    </div>
                   </div>
                 </div>
               </div>
