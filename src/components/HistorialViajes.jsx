@@ -12,11 +12,10 @@ import DestinosDestacados from './components/DestinosDestacados.jsx';
 import SobreNosotros from './components/SobreNosotros.jsx';
 import Contactanos from './components/Contactanos.jsx';
 import Footer from './components/Footer.jsx';
-import DetalleViaje from './components/DetalleViaje.jsx';
+import DetalleViaje from './components/DetalleViaje.jsx'; 
 import HistorialViajes from './components/HistorialViajes.jsx'; // <--- 1. NUEVO IMPORT
 import './App.css';
 
-// Componente que maneja el routing basado en autenticación
 const AppContent = () => {
   const { 
     user, 
@@ -72,7 +71,6 @@ const AppContent = () => {
     }
   };
 
-  // Función para manejar clic en explorar destino
   const handleExplorarDestino = (nombreDestino) => {
     if (!user) {
       abrirRegistro();
@@ -83,78 +81,46 @@ const AppContent = () => {
     }
   };
 
-  // Función para ir a los detalles
   const navegarADetalles = (viaje) => {
     setViajeSeleccionado(viaje);
     setCurrentView('detalle-viaje');
     window.scrollTo(0, 0);
   };
 
-  // Función para navegar a GestionarPago
   const navegarAGestionarPago = (viaje) => {
     setViajeParaPago(viaje);
     setCurrentView('gestionar-pago');
   };
 
-  // Función para navegar a Sobre Nosotros
-  const navegarASobreNosotros = () => {
-    setCurrentView('sobre-nosotros');
-  };
+  const navegarASobreNosotros = () => setCurrentView('sobre-nosotros');
+  const navegarAPaquetes = () => setCurrentView('paquetes');
+  const navegarAContactanos = () => setCurrentView('contactanos');
+  const navegarAServicios = () => setCurrentView('servicios');
+  const navegarAHistorial = () => setCurrentView('historial'); // <--- NUEVA NAVEGACIÓN
 
-  // Función para navegar a Paquetes Turísticos
-  const navegarAPaquetes = () => {
-    setCurrentView('paquetes');
-  };
-
-  // Función para navegar a Contáctanos
-  const navegarAContactanos = () => {
-    setCurrentView('contactanos');
-  };
-
-  // Función para navegar a Servicios
-  const navegarAServicios = () => {
-    setCurrentView('servicios');
-  };
-
-  // --- 2. NUEVA FUNCIÓN DE NAVEGACIÓN ---
-  const navegarAHistorial = () => {
-    setCurrentView('historial');
-  };
-
-  // Función para volver a la vista principal
   const volverAVistaPrincipal = () => {
     setCurrentView('main');
     setViajeParaPago(null);
     setViajeSeleccionado(null);
   };
 
-  // Función para manejar clics en enlaces de navegación
   const handleNavLinkClick = (e, section) => {
     e.preventDefault();
-    if (section === 'about') {
-      navegarASobreNosotros();
-    } else if (section === 'home') {
-      volverAVistaPrincipal();
-    } else if (section === 'paquetes') {
-      navegarAPaquetes();
-    } else if (section === 'destinations') {
+    if (section === 'about') navegarASobreNosotros();
+    else if (section === 'home') volverAVistaPrincipal();
+    else if (section === 'paquetes') navegarAPaquetes();
+    else if (section === 'destinations') {
       setCurrentView('main');
       setTimeout(() => {
         const destinationsSection = document.getElementById('destinations');
-        if (destinationsSection) {
-          destinationsSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (destinationsSection) destinationsSection.scrollIntoView({ behavior: 'smooth' });
       }, 100);
-    } else if (section === 'contact') {
-      navegarAContactanos();
-    } else if (section === 'services') {
-      navegarAServicios();
-    } else if (section === 'historial') { // <--- NUEVA OPCIÓN
-      navegarAHistorial();
-    }
+    } 
+    else if (section === 'contact') navegarAContactanos();
+    else if (section === 'services') navegarAServicios();
+    else if (section === 'historial') navegarAHistorial(); // <--- CLICK EN MENU
   };
 
-  // Función para cerrar sesión que maneja todas las vistas
   const handleLogout = () => {
     logout();
     setCurrentView('main');
@@ -163,7 +129,7 @@ const AppContent = () => {
     setShowLogin(false);
   };
 
-  // Componente de Header reutilizable
+  // Componente Header ACTUALIZADO CON HISTORIAL
   const Header = () => (
     <header className="header">
       <div className="container">
@@ -173,17 +139,15 @@ const AppContent = () => {
           </div>
           <ul className="nav-links">
             <li><a href="#home" onClick={(e) => handleNavLinkClick(e, 'home')}>Home</a></li>
-            <li><a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')}>About Us</a></li>
+            <li><a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')}>Nosotros</a></li>
             <li><a href="#paquetes" onClick={(e) => handleNavLinkClick(e, 'paquetes')}>Paquetes</a></li>
             
-            {/* --- 3. MOSTRAR ENLACE "MIS VIAJES" SI ESTÁ LOGUEADO --- */}
+            {/* REQUISITO: Historial visible solo para usuario logueado */}
             {user && (
               <li><a href="#historial" onClick={(e) => handleNavLinkClick(e, 'historial')}><strong>Mis Viajes</strong></a></li>
             )}
-
-            <li><a href="#destinations" onClick={(e) => handleNavLinkClick(e, 'destinations')}>Destinos</a></li>
-            <li><a href="#services" onClick={(e) => handleNavLinkClick(e, 'services')}>Servicio</a></li>
-            <li><a href="#contact" onClick={(e) => handleNavLinkClick(e, 'contact')}>Contact Us</a></li>
+            
+            <li><a href="#contact" onClick={(e) => handleNavLinkClick(e, 'contact')}>Contacto</a></li>
           </ul>
           <div className="auth-buttons">
             {!user ? (
@@ -200,56 +164,36 @@ const AppContent = () => {
     </header>
   );
 
-  // Componente de Modales reutilizable
   const Modales = () => (
     <>
       {showRegistro && (
         <div className="modal-overlay" onClick={cerrarRegistro}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={cerrarRegistro}>×</button>
-            <RegistroUsuario 
-              onClose={cerrarRegistro} 
-              onSwitchToLogin={irALogin}
-              onShowVerifyEmail={abrirVerifyEmailPage}
-            />
+            <RegistroUsuario onClose={cerrarRegistro} onSwitchToLogin={irALogin} onShowVerifyEmail={abrirVerifyEmailPage}/>
           </div>
         </div>
       )}
-
       {showLogin && (
         <div className="modal-overlay" onClick={cerrarLogin}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={cerrarLogin}>×</button>
-            <IniciarSesion 
-              onClose={cerrarLogin} 
-              onSwitchToRegister={irARegistro}
-              onShowVerifyEmail={abrirVerifyEmailPage}
-            />
+            <IniciarSesion onClose={cerrarLogin} onSwitchToRegister={irARegistro} onShowVerifyEmail={abrirVerifyEmailPage}/>
           </div>
         </div>
       )}
-
       {showTokenModal && (
-        <VerificationTokenModal
-          token={verificationToken}
-          email={pendingEmail}
-          onClose={closeTokenModal}
-          onVerify={handleVerifyToken}
-        />
+        <VerificationTokenModal token={verificationToken} email={pendingEmail} onClose={closeTokenModal} onVerify={handleVerifyToken}/>
       )}
     </>
   );
 
-  // Componente para la página de Servicios
   const Servicios = () => (
     <div className="servicios-container">
       <div className="container">
-        <button className="btn-back" onClick={volverAVistaPrincipal}>
-          ← Volver al inicio
-        </button>
+        <button className="btn-back" onClick={volverAVistaPrincipal}>← Volver al inicio</button>
         <div className="servicios-header">
           <h1>Nuestros Servicios</h1>
-          <p>Ofrecemos diferentes tipos de transporte para adaptarnos a tus necesidades</p>
         </div>
         <div className="servicios-grid">
            <div className="servicio-card"><h3>Servicio Estándar</h3><p>Minibús - Desde S/. 25</p></div>
@@ -259,25 +203,17 @@ const AppContent = () => {
     </div>
   );
 
-  if (loading) {
-    return (
-      <div className="cargando">
-        <div className="spinner"></div>
-        <p>Cargando aplicación...</p>
-      </div>
-    );
-  }
+  if (loading) return <div className="cargando"><div className="spinner"></div><p>Cargando aplicación...</p></div>;
 
-  // VISTA: DETALLE DE VIAJE
+  // --- VISTAS ---
+
+  // 1. VISTA DE DETALLES
   if (currentView === 'detalle-viaje') {
     return (
       <div className="App">
         <Header />
         <div style={{ marginTop: '80px', minHeight: '60vh' }}>
-            <DetalleViaje 
-                viaje={viajeSeleccionado} 
-                onVolver={volverAVistaPrincipal} 
-            />
+            <DetalleViaje viaje={viajeSeleccionado} onVolver={volverAVistaPrincipal} />
         </div>
         <Footer />
         <Modales />
@@ -285,166 +221,65 @@ const AppContent = () => {
     );
   }
 
-  // --- 4. VISTA NUEVA: HISTORIAL DE VIAJES ---
+  // 2. VISTA DE HISTORIAL (Nueva)
   if (currentView === 'historial') {
     return (
       <div className="App">
         <Header />
-        <HistorialViajes 
-            onVolver={volverAVistaPrincipal} 
-            onVerDetalles={navegarADetalles} 
-        />
+        <HistorialViajes onVolver={volverAVistaPrincipal} onVerDetalles={navegarADetalles} />
         <Footer />
         <Modales />
       </div>
     );
   }
 
-  if (showVerifyEmailPage) {
-    return (
-      <div className="verify-email-wrapper">
-        <button className="btn-back" onClick={cerrarVerifyEmailPage}>
-          ← Volver al inicio
-        </button>
-        <VerifyEmailPage />
-      </div>
-    );
-  }
+  if (showVerifyEmailPage) return <div className="verify-email-wrapper"><button className="btn-back" onClick={cerrarVerifyEmailPage}>← Volver</button><VerifyEmailPage /></div>;
 
-  if (currentView === 'gestionar-pago' && user) {
-    return (
-      <div className="gestionar-pago-container">
-        <GestionarPago 
-          viaje={viajeParaPago} 
-          onVolver={volverAVistaPrincipal} 
-        />
-        <Footer />
-        <Modales />
-      </div>
-    );
-  }
+  if (currentView === 'gestionar-pago' && user) return <div className="gestionar-pago-container"><GestionarPago viaje={viajeParaPago} onVolver={volverAVistaPrincipal} /><Footer /><Modales /></div>;
 
-  if (currentView === 'sobre-nosotros') {
-    return (
-      <div className="sobre-nosotros-container">
-        <SobreNosotros onVolver={volverAVistaPrincipal} />
-        <Footer />
-        <Modales />
-      </div>
-    );
-  }
+  if (currentView === 'sobre-nosotros') return <div className="sobre-nosotros-container"><SobreNosotros onVolver={volverAVistaPrincipal} /><Footer /><Modales /></div>;
 
-  if (currentView === 'paquetes') {
-    return (
-      <div className="App">
-        <Header />
-        <PaquetesTuristicos onVerDetalles={navegarADetalles} />
-        <Footer />
-        <Modales />
-      </div>
-    );
-  }
+  if (currentView === 'paquetes') return <div className="App"><Header /><PaquetesTuristicos onVerDetalles={navegarADetalles} /><Footer /><Modales /></div>;
 
-  if (currentView === 'servicios') {
-    return (
-      <div className="App">
-        <Header />
-        <Servicios />
-        <Footer />
-        <Modales />
-      </div>
-    );
-  }
+  if (currentView === 'servicios') return <div className="App"><Header /><Servicios /><Footer /><Modales /></div>;
 
-  if (currentView === 'contactanos') {
-    return (
-      <div className="App">
-        <Header />
-        <Contactanos />
-        <Footer />
-        <Modales />
-      </div>
-    );
-  }
+  if (currentView === 'contactanos') return <div className="App"><Header /><Contactanos /><Footer /><Modales /></div>;
 
-  // Redirección según rol: ADMIN
-  if (user && user.role === 'admin') {
-    return (
-      <>
-        <CrearViajes onLogout={handleLogout} />
-        <Footer />
-        {showTokenModal && (
-          <VerificationTokenModal
-            token={verificationToken}
-            email={pendingEmail}
-            onClose={closeTokenModal}
-            onVerify={handleVerifyToken}
-          />
-        )}
-      </>
-    );
-  }
+  if (user && user.role === 'admin') return <><CrearViajes onLogout={handleLogout} /><Footer />{showTokenModal && <VerificationTokenModal token={verificationToken} email={pendingEmail} onClose={closeTokenModal} onVerify={handleVerifyToken} />}</>;
 
-  // Redirección según rol: USUARIO
   if (user && user.role === 'user') {
     return (
       <>
-        <BuscarViaje 
-             onNavegarAPago={navegarAGestionarPago} 
-             onLogout={handleLogout} 
-             onVerDetalles={navegarADetalles}
-        />
+        <BuscarViaje onNavegarAPago={navegarAGestionarPago} onLogout={handleLogout} onVerDetalles={navegarADetalles}/>
         <Footer />
-        {showTokenModal && (
-          <VerificationTokenModal
-            token={verificationToken}
-            email={pendingEmail}
-            onClose={closeTokenModal}
-            onVerify={handleVerifyToken}
-          />
-        )}
+        {showTokenModal && <VerificationTokenModal token={verificationToken} email={pendingEmail} onClose={closeTokenModal} onVerify={handleVerifyToken} />}
       </>
     );
   }
 
-  // Vista PRINCIPAL (Home público)
   return (
     <div className="App">
       <Header />
-
       <section className="hero" id="home">
         <div className="container">
           <div className="hero-content">
             <h1>Descubre el Norte Ancestral</h1>
             <h2>Agencia de Viajes Confiable</h2>
-            <p className="hero-quote">
-              Explora los tesoros arqueológicos de las culturas Moche y Chimú. 
-            </p>
             <div className="hero-buttons">
               <button className="btn-primary" onClick={abrirRegistro}>Comenzar a Explorar</button>
               <button className="btn-secondary" onClick={abrirLogin}>Ya tengo cuenta</button>
-              <button className="btn-tertiary" onClick={abrirVerifyEmailPage}>Verificar Email</button>
             </div>
           </div>
         </div>
       </section>
-
       <PaquetesTuristicos onVerDetalles={navegarADetalles} />
-
       <DestinosDestacados onExplorarClick={handleExplorarDestino} />
-
       <Footer />
       <Modales />
     </div>
   );
 };
 
-function App() {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
-  );
-}
+function App() { return <AuthProvider><AppContent /></AuthProvider>; }
 
 export default App;

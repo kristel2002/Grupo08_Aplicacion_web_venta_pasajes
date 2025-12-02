@@ -176,7 +176,7 @@ const PaquetesTuristicos = ({ onVerDetalles }) => {
                           width: '100%'
                         }}
                       >
-                        👁️ Ver Detalles
+                         Ver Detalles
                       </button>
 
                       <button 
