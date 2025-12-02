@@ -13,7 +13,7 @@ import SobreNosotros from './components/SobreNosotros.jsx';
 import Contactanos from './components/Contactanos.jsx';
 import Footer from './components/Footer.jsx';
 import DetalleViaje from './components/DetalleViaje.jsx';
-import HistorialViajes from './components/HistorialViajes.jsx'; // <--- 1. NUEVO IMPORT
+import HistorialViajes from './components/HistorialViajes.jsx'; 
 import './App.css';
 
 // Componente que maneja el routing basado en autenticación
@@ -116,7 +116,7 @@ const AppContent = () => {
     setCurrentView('servicios');
   };
 
-  // --- 2. NUEVA FUNCIÓN DE NAVEGACIÓN ---
+  // Función para navegar a Historial
   const navegarAHistorial = () => {
     setCurrentView('historial');
   };
@@ -149,12 +149,12 @@ const AppContent = () => {
       navegarAContactanos();
     } else if (section === 'services') {
       navegarAServicios();
-    } else if (section === 'historial') { // <--- NUEVA OPCIÓN
+    } else if (section === 'historial') { 
       navegarAHistorial();
     }
   };
 
-  // Función para cerrar sesión que maneja todas las vistas
+  // Función para cerrar sesión
   const handleLogout = () => {
     logout();
     setCurrentView('main');
@@ -163,7 +163,7 @@ const AppContent = () => {
     setShowLogin(false);
   };
 
-  // Componente de Header reutilizable
+  // --- HEADER CORREGIDO (Menú Limpio) ---
   const Header = () => (
     <header className="header">
       <div className="container">
@@ -172,19 +172,29 @@ const AppContent = () => {
             <h2>Tourest</h2>
           </div>
           <ul className="nav-links">
+            {/* 1. Home siempre visible */}
             <li><a href="#home" onClick={(e) => handleNavLinkClick(e, 'home')}>Home</a></li>
-            <li><a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')}>About Us</a></li>
-            <li><a href="#paquetes" onClick={(e) => handleNavLinkClick(e, 'paquetes')}>Paquetes</a></li>
             
-            {/* --- 3. MOSTRAR ENLACE "MIS VIAJES" SI ESTÁ LOGUEADO --- */}
-            {user && (
-              <li><a href="#historial" onClick={(e) => handleNavLinkClick(e, 'historial')}><strong>Mis Viajes</strong></a></li>
+            {/* 2. Lógica del Menú Estricta */}
+            {user ? (
+              // SI ESTÁ LOGUEADO: Solo mostramos Mis Viajes
+              <li>
+                <a href="#historial" onClick={(e) => handleNavLinkClick(e, 'historial')}>
+                   <strong>📜 Mis Viajes</strong>
+                </a>
+              </li>
+            ) : (
+              // SI NO ESTÁ LOGUEADO: Mostramos el resto
+              <>
+                <li><a href="#about" onClick={(e) => handleNavLinkClick(e, 'about')}>About Us</a></li>
+                <li><a href="#paquetes" onClick={(e) => handleNavLinkClick(e, 'paquetes')}>Paquetes</a></li>
+                <li><a href="#destinations" onClick={(e) => handleNavLinkClick(e, 'destinations')}>Destinos</a></li>
+                <li><a href="#services" onClick={(e) => handleNavLinkClick(e, 'services')}>Servicio</a></li>
+                <li><a href="#contact" onClick={(e) => handleNavLinkClick(e, 'contact')}>Contact Us</a></li>
+              </>
             )}
-
-            <li><a href="#destinations" onClick={(e) => handleNavLinkClick(e, 'destinations')}>Destinos</a></li>
-            <li><a href="#services" onClick={(e) => handleNavLinkClick(e, 'services')}>Servicio</a></li>
-            <li><a href="#contact" onClick={(e) => handleNavLinkClick(e, 'contact')}>Contact Us</a></li>
           </ul>
+          
           <div className="auth-buttons">
             {!user ? (
               <>
@@ -200,7 +210,7 @@ const AppContent = () => {
     </header>
   );
 
-  // Componente de Modales reutilizable
+  // Componente de Modales
   const Modales = () => (
     <>
       {showRegistro && (
@@ -240,7 +250,7 @@ const AppContent = () => {
     </>
   );
 
-  // Componente para la página de Servicios
+  // Componente Servicios
   const Servicios = () => (
     <div className="servicios-container">
       <div className="container">
@@ -285,7 +295,7 @@ const AppContent = () => {
     );
   }
 
-  // --- 4. VISTA NUEVA: HISTORIAL DE VIAJES ---
+  // VISTA: HISTORIAL DE VIAJES
   if (currentView === 'historial') {
     return (
       <div className="App">
@@ -388,13 +398,21 @@ const AppContent = () => {
   // Redirección según rol: USUARIO
   if (user && user.role === 'user') {
     return (
-      <>
-        <BuscarViaje 
-             onNavegarAPago={navegarAGestionarPago} 
-             onLogout={handleLogout} 
-             onVerDetalles={navegarADetalles}
-        />
+      <div className="App">
+        <Header />
+        
+        {/* --- CORRECCIÓN: AGREGAMOS MARGEN PARA QUE BAJE EL CONTENIDO --- */}
+        <div style={{ marginTop: '80px' }}>
+            <BuscarViaje 
+                 onNavegarAPago={navegarAGestionarPago} 
+                 onLogout={handleLogout} 
+                 onVerDetalles={navegarADetalles}
+            />
+        </div>
+        
         <Footer />
+        <Modales />
+        
         {showTokenModal && (
           <VerificationTokenModal
             token={verificationToken}
@@ -403,7 +421,7 @@ const AppContent = () => {
             onVerify={handleVerifyToken}
           />
         )}
-      </>
+      </div>
     );
   }
 
