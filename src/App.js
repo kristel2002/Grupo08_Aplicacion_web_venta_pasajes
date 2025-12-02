@@ -14,7 +14,7 @@ import Contactanos from './components/Contactanos.jsx';
 import Footer from './components/Footer.jsx';
 import DetalleViaje from './components/DetalleViaje.jsx';
 import HistorialViajes from './components/HistorialViajes.jsx';
-import RegistrarReembolso from './components/RegistrarReembolso.jsx'; // <--- NUEVO IMPORT
+import RegistrarReembolso from './components/RegistrarReembolso.jsx';
 import './App.css';
 
 // Componente que maneja el routing basado en autenticación
@@ -221,11 +221,11 @@ const AppContent = () => {
   if (user && user.role === 'admin') {
     return (
       <div className="App">
-        {/* HEADER ESPECIAL PARA EMPLEADOS */}
+        {/* HEADER ESPECIAL PARA EMPLEADOS - CORREGIDO A TRAVELTRUX */}
         <header className="header" style={{backgroundColor: '#2c3e50'}}>
           <div className="container">
             <nav className="navbar">
-              <div className="logo"><h2 style={{color:'white'}}>Tourest Staff</h2></div>
+              <div className="logo"><h2 style={{color:'white'}}>TravelTrux</h2></div>
               <ul className="nav-links">
                 <li><a href="#" onClick={() => setCurrentView('main')} style={{color:'white'}}>Gestionar Viajes</a></li>
                 <li><a href="#" onClick={() => setCurrentView('admin-reembolso')} style={{color:'#ffc107'}}>💰 Reembolsos</a></li>
