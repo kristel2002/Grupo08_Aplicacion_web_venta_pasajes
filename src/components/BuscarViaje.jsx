@@ -490,7 +490,7 @@ const BuscarViaje = (props) => {
                         }}
                         onClick={() => props.onVerDetalles(viaje)}
                       >
-                        👁️ Ver Detalles
+                        Ver Detalles
                       </button>
 
                       <button className="btn-reservar-compact" onClick={() => handleReservar(viaje)}>
