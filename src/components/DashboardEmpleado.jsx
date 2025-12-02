@@ -3,52 +3,31 @@ import './components.css';
 
 const DashboardEmpleado = ({ onNavegar }) => {
   
-  // Lista de tareas asignadas al ROL DE EMPLEADO en Jira
+  // SOLO dejamos la tarea de Reembolsos como pediste
   const tareasEmpleado = [
-    {
-      id: 'gestion-viajes',
-      titulo: '✈️ Gestionar Viajes',
-      descripcion: 'Crear, editar y eliminar paquetes (TRAV-86)',
-      color: '#007bff' // Azul
-    },
     {
       id: 'reembolsos',
       titulo: '💰 Registrar Reembolsos',
-      descripcion: 'Procesar devoluciones a clientes (TRAV-73)',
+      descripcion: 'Procesar solicitudes de devolución (TRAV-73)',
       color: '#ffc107', // Amarillo
       textoOscuro: true
-    },
-    {
-      id: 'reportes',
-      titulo: '📊 Reportes Financieros',
-      descripcion: 'Ver balance de ingresos (TRAV-90)',
-      color: '#17a2b8' // Cyan
-    },
-    {
-      id: 'pagos-pendientes',
-      titulo: '⚠️ Pagos Pendientes',
-      descripcion: 'Revisar fallos o alertas (TRAV-57)',
-      color: '#dc3545' // Rojo
-    },
-    {
-      id: 'comunicados',
-      titulo: '📢 Comunicados',
-      descripcion: 'Enviar notificaciones (TRAV-94)',
-      color: '#6c757d' // Gris
     }
   ];
 
   return (
-    <div className="dashboard-container" style={{ padding: '40px 20px', maxWidth: '1000px', margin: '0 auto' }}>
+    <div className="dashboard-container" style={{ padding: '40px 20px', maxWidth: '800px', margin: '0 auto' }}>
       
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1 style={{ color: '#2c3e50', fontSize: '2.2rem' }}>👷 Panel de Trabajo del Empleado</h1>
-        <p style={{ color: '#666', fontSize: '1.1rem' }}>Seleccione una operación para comenzar su jornada</p>
+        <h1 style={{ color: '#2c3e50', fontSize: '2.2rem' }}>👷 Panel de Empleado</h1>
+        <p style={{ color: '#666', fontSize: '1.1rem' }}>Bienvenido. Tarea disponible:</p>
       </div>
 
       <div className="dashboard-grid" style={{ 
         display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+        // Cambiamos el grid para que el botón único se vea bien centrado y grande
+        gridTemplateColumns: '1fr', 
+        maxWidth: '400px',
+        margin: '0 auto',
         gap: '25px' 
       }}>
         
@@ -59,40 +38,43 @@ const DashboardEmpleado = ({ onNavegar }) => {
             style={{
               backgroundColor: 'white',
               borderRadius: '10px',
-              padding: '25px',
-              boxShadow: '0 4px 15px rgba(0,0,0,0.05)',
+              padding: '30px',
+              boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
               cursor: 'pointer',
-              borderLeft: `6px solid ${tarea.color}`,
+              borderLeft: `8px solid ${tarea.color}`,
               transition: 'transform 0.2s ease, box-shadow 0.2s ease',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'space-between',
-              height: '100%'
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              height: '200px' // Le damos altura para que parezca un botón importante
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-5px)';
-              e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
+              e.currentTarget.style.boxShadow = '0 12px 25px rgba(0,0,0,0.15)';
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.05)';
+              e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.08)';
             }}
           >
             <div>
-              <h3 style={{ margin: '0 0 10px 0', color: '#333', fontSize: '1.2rem' }}>{tarea.titulo}</h3>
-              <p style={{ margin: 0, color: '#666', fontSize: '0.95rem' }}>{tarea.descripcion}</p>
+              <div style={{ fontSize: '3rem', marginBottom: '15px' }}>💸</div>
+              <h3 style={{ margin: '0 0 10px 0', color: '#333', fontSize: '1.4rem' }}>{tarea.titulo}</h3>
+              <p style={{ margin: 0, color: '#666', fontSize: '1rem' }}>{tarea.descripcion}</p>
             </div>
             
-            <div style={{ marginTop: '20px', textAlign: 'right' }}>
+            <div style={{ marginTop: '25px' }}>
               <span style={{ 
-                color: tarea.color, 
+                color: '#856404', 
                 fontWeight: 'bold', 
-                fontSize: '0.9rem',
-                backgroundColor: `${tarea.color}15`, // Color con transparencia
-                padding: '5px 10px',
-                borderRadius: '15px'
+                fontSize: '1rem',
+                backgroundColor: '#fff3cd', 
+                padding: '8px 20px',
+                borderRadius: '20px'
               }}>
-                Acceder →
+                Ingresar al Módulo →
               </span>
             </div>
           </div>

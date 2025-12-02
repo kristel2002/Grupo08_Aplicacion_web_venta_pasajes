@@ -14,25 +14,18 @@ export const useAuth = () => {
 
 // Función auxiliar para formatear nombres
 const formatUserName = (email, fullName = '') => {
-  // Si tenemos un nombre completo, lo usamos
   if (fullName && fullName.trim() !== '') {
     return fullName.trim();
   }
-  
-  // Si no, generamos un nombre a partir del email
   const username = email.split('@')[0];
-  
-  // Convertir a formato nombre propio (capitalizar primera letra)
-  const formattedName = username
-    .replace(/[._-]/g, ' ') // Reemplazar puntos, guiones bajos y guiones con espacios
+  return username
+    .replace(/[._-]/g, ' ')
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
-  
-  return formattedName;
 };
 
-// Base de datos simulada de usuarios registrados
+// Base de datos simulada de usuarios registrados (CLIENTES)
 const simulatedUsersDB = [
   {
     email: 'maria.garcia@email.com',
@@ -43,21 +36,6 @@ const simulatedUsersDB = [
     email: 'carlos.rodriguez@email.com',
     password: 'Password123!',
     fullName: 'Carlos Rodríguez'
-  },
-  {
-    email: 'ana.martinez@email.com', 
-    password: 'Password123!',
-    fullName: 'Ana Martínez'
-  },
-  {
-    email: 'javier.lopez@email.com',
-    password: 'Password123!',
-    fullName: 'Javier López'
-  },
-  {
-    email: 'laura.hernandez@email.com',
-    password: 'Password123!',
-    fullName: 'Laura Hernández'
   }
 ];
 
@@ -75,7 +53,6 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Función para buscar usuario en la base de datos simulada
   const findUserInDB = (email, password) => {
     return simulatedUsersDB.find(u => 
       u.email.toLowerCase() === email.toLowerCase() && 
@@ -83,7 +60,6 @@ export const AuthProvider = ({ children }) => {
     );
   };
 
-  // Función para verificar si el usuario ya existe
   const checkUserExists = (email) => {
     return simulatedUsersDB.some(u => 
       u.email.toLowerCase() === email.toLowerCase()
@@ -93,10 +69,9 @@ export const AuthProvider = ({ children }) => {
   // Función para iniciar sesión
   const login = async (email, password) => {
     try {
-      // Simulamos una petición a la API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Credenciales de administrador (en producción esto vendría de una API)
+      // --- AQUÍ ESTÁN TUS CUENTAS DE STAFF ---
       const adminUsers = [
         { 
           email: 'admin@tourest.com', 
@@ -105,16 +80,17 @@ export const AuthProvider = ({ children }) => {
           name: 'Administrador Principal',
           id: 1
         },
+        // --- CUENTA NUEVA PARA EL EMPLEADO ---
         { 
-          email: 'superadmin@tourest.com', 
-          password: 'SuperAdmin123!', 
-          role: 'admin', 
-          name: 'Super Administrador',
-          id: 2
+          email: 'empleado@tourest.com', 
+          password: 'Tourest2025!', 
+          role: 'admin', // Le damos rol admin para que entre al Dashboard de Staff
+          name: 'Agente de Ventas',
+          id: 3
         }
       ];
 
-      // Buscar si es un administrador
+      // Buscar si es staff
       const adminUser = adminUsers.find(u => 
         u.email.toLowerCase() === email.toLowerCase() && u.password === password
       );
@@ -132,7 +108,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true, role: 'admin', user: userData };
       }
 
-      // Buscar en usuarios registrados
+      // Buscar en clientes registrados
       const registeredUser = findUserInDB(email, password);
       if (registeredUser) {
         const userData = {
@@ -147,8 +123,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true, role: 'user', user: userData };
       }
 
-      // Usuario nuevo (login automático sin registro)
-      // Verificar si el email ya existe pero la contraseña es incorrecta
+      // Login automático para nuevos usuarios (Demo)
       if (checkUserExists(email)) {
         return { 
           success: false, 
@@ -156,14 +131,13 @@ export const AuthProvider = ({ children }) => {
         };
       }
 
-      // Nuevo usuario - crear cuenta automáticamente
       const newUserData = {
         id: Date.now(),
         email: email,
         name: formatUserName(email),
         role: 'user',
         displayName: formatUserName(email),
-        isNewUser: true // Marcar como usuario nuevo
+        isNewUser: true
       };
       
       setUser(newUserData);
@@ -182,26 +156,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Función para cerrar sesión
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
   };
 
-  // Función para registrar usuario
   const register = async (userData) => {
     try {
-      // Simular registro
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Verificar si el usuario ya existe
       if (checkUserExists(userData.email)) {
-        return { 
-          success: false, 
-          error: 'Ya existe una cuenta con este email. Por favor, inicia sesión.' 
-        };
+        return { success: false, error: 'Ya existe una cuenta con este email.' };
       }
-
       const newUser = {
         id: Date.now(),
         email: userData.email,
@@ -210,62 +175,34 @@ export const AuthProvider = ({ children }) => {
         displayName: userData.nombre,
         isNewUser: false
       };
-      
       setUser(newUser);
       localStorage.setItem('user', JSON.stringify(newUser));
-      
-      return { 
-        success: true, 
-        user: newUser,
-        message: '¡Cuenta creada exitosamente!'
-      };
+      return { success: true, user: newUser, message: '¡Cuenta creada exitosamente!' };
     } catch (error) {
-      return { 
-        success: false, 
-        error: 'Error al registrar usuario. Por favor, intenta de nuevo.' 
-      };
+      return { success: false, error: 'Error al registrar usuario.' };
     }
   };
 
-  // Función para actualizar perfil de usuario
   const updateProfile = async (profileData) => {
     try {
       await new Promise(resolve => setTimeout(resolve, 500));
-      
-      const updatedUser = {
-        ...user,
-        name: profileData.name || user.name,
-        displayName: profileData.name || user.displayName,
-        phone: profileData.phone || user.phone
-      };
-      
+      const updatedUser = { ...user, ...profileData };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
-      
       return { success: true, user: updatedUser };
     } catch (error) {
       return { success: false, error: 'Error al actualizar perfil' };
     }
   };
 
-  // Valor del contexto
   const value = {
-    user,
-    login,
-    logout,
-    register,
-    updateProfile,
-    loading,
+    user, login, logout, register, updateProfile, loading,
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin',
     userDisplayName: user?.displayName || user?.name || 'Usuario'
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;
