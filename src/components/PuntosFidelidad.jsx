@@ -50,7 +50,7 @@ const PuntosFidelidad = ({ onVolver }) => {
         </div>
       )}
 
-      <h3>🎁 Catálogo de Recompensas</h3>
+      <h3> Catálogo de Recompensas</h3>
       <div className="grid-recompensas" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
         {recompensas.map(item => (
           <div key={item.id} style={{ 
