@@ -50,7 +50,7 @@ const HistorialViajes = ({ onVolver, onVerDetalles }) => {
           ← Volver al Inicio
         </button>
 
-        <h2>📜 Mi Historial de Viajes</h2>
+        <h2> Mi Historial de Viajes</h2>
         <p>Revisa el estado y detalles de tus aventuras pasadas.</p>
 
         <div className="lista-historial" style={{ display: 'flex', flexDirection: 'column', gap: '15px', marginTop: '20px' }}>
